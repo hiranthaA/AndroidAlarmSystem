@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name"> Alarm System</string>
+    <string name="add_new_alarm">+</string>
+    <string name="set_new_alarm">Set Alarm</string>
+    <string name="add_alarm_name">Alarm 1</string>
+    <string name="txt_Alarm_Set_Status">Set time</string>
+    <string name="txt_cancel_alarm">Cancel Alarm</string>
+    <string name="set_new_alarm_name">Set name</string>
+</resources>

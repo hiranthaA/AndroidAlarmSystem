@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/select_time_picker"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="320dp"
+        android:layout_marginRight="320dp"
+        android:layout_marginBottom="87dp"
+        android:background="@color/colorAccent"
+        android:text="@string/add_new_alarm"
+        android:textColor="@android:color/background_light"
+        tools:text="@string/add_new_alarm" />
+
+    <Button
+        android:id="@+id/btn_set_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="78dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="85dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/set_new_alarm"
+        android:textColor="@android:color/background_light"
+        tools:text="@string/set_new_alarm" />
+
+    <Button
+        android:id="@+id/btn_cancel_alarm"
+        android:layout_width="342dp"
+        android:layout_height="67dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="7dp"
+        android:background="@color/colorCancelButtonEnabled"
+        android:text="@string/txt_cancel_alarm"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:id="@+id/text_alarm_time"
+        android:layout_width="193dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="110dp"
+        android:layout_marginRight="110dp"
+        android:layout_marginBottom="87dp"
+        android:hint="@string/txt_Alarm_Set_Status"
+        android:textSize="18sp" />
+
+    <ListView
+        android:id="@+id/alarmList"
+        android:layout_width="match_parent"
+        android:layout_height="541dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="190dp"
+        android:background="?attr/colorButtonNormal" />
+
+    <EditText
+        android:id="@+id/txt_set_alarm_name"
+        android:layout_width="238dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="112dp"
+        android:layout_marginRight="112dp"
+        android:layout_marginBottom="118dp"
+        android:ems="10"
+        android:hint="@string/set_new_alarm_name"
+        android:inputType="textPersonName" />
+
+</RelativeLayout>

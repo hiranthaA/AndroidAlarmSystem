@@ -21,10 +21,14 @@ public class AlertReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String alarmTitle = intent.getStringExtra("alarmTitle");
+        int alarmTone = intent.getIntExtra("alarmTone",1);
         NotificationHelper notificationHelper = new NotificationHelper(context,alarmTitle);
         NotificationCompat.Builder notificationBuilder = notificationHelper.getChannelNotification();
         notificationHelper.getManager().notify(999,notificationBuilder.build());
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri alarmUri = RingtoneManager.getDefaultUri(alarmTone);
+        if(alarmUri==null){
+            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        }
         ringtone = RingtoneManager.getRingtone(context, alarmUri);
         ringtone.play();
         ringtone.setLooping(true);

@@ -9,17 +9,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -28,6 +34,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -42,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     private static Button buttonCancelAlarm;
     private Button buttonTimePicker;
     private Button buttonSetAlarm;
-
+    private static Spinner ringtoneList;
+    private int selectedRingtone;
+    private MediaPlayer mediaPlayer;
     public static Context staticcontext;
 
 
@@ -64,7 +74,63 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         txtalarmTime = findViewById(R.id.text_alarm_time);
         alarmListView = findViewById(R.id.alarmList);
         alarmName = findViewById(R.id.txt_set_alarm_name);
+        ringtoneList = findViewById(R.id.spin_ringtones);
         //---------------------------------------------------------------------
+
+        //initialize ringtone spinner
+        ArrayList<String> tones = new ArrayList<String>();
+        tones.add("Default Tone");
+        tones.add("Alarm Tone");
+        tones.add("Ringtone");
+        tones.add("Notification Tone");
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, tones);
+        ringtoneList.setAdapter(arrayAdapter);
+
+        ringtoneList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if(position==1){
+                    selectedRingtone = 4;
+                }else if(position==2){
+                    selectedRingtone = 1;
+                }else if(position==3){
+                    selectedRingtone = 2;
+                }else if(position==0){
+                    selectedRingtone =4;
+                }
+                Uri notification = RingtoneManager.getDefaultUri(selectedRingtone);
+                mediaPlayer = MediaPlayer.create(getApplicationContext(), notification);
+                mediaPlayer.setLooping(false);
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                }
+
+
+                if(position!=0){
+                    mediaPlayer.start();
+                    mediaPlayer.setLooping(false);
+                    Timer timer = new Timer();
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            mediaPlayer.stop();
+                        }
+                    };
+                    timer.schedule(task, 5100);
+                }
+                Log.v("item", (String) parent.getItemAtPosition(position));
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         buttonTimePicker.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -169,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                     String alarmtime = data.getString(1);
                     String alarmname = data.getString(2);
 
-                    listString = alarmname + " : " + alarmtime;
+                    listString = alarmtime + " : " + alarmname;
 
                     alarmlist.add(listString);
                     ListAdapter listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,alarmlist);
@@ -210,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this,AlertReceiver.class);
             intent.putExtra("alarmTitle", alarmName.getText().toString());
+            intent.putExtra("alarmTone", selectedRingtone);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0);
 
             if(calendar.before(Calendar.getInstance())){
